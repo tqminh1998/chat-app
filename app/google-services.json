@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "822743284285",
+    "firebase_url": "https://final-android-project-d1eac.firebaseio.com",
+    "project_id": "final-android-project-d1eac",
+    "storage_bucket": "final-android-project-d1eac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:822743284285:android:f23d59d5b6eb0c2e",
+        "android_client_info": {
+          "package_name": "com.example.quangminh.ichat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "822743284285-6gul2p350pbom10h6esro7lsjc2f0bhr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.quangminh.ichat",
+            "certificate_hash": "d6648440ca6cbdccb0476fe9f1963e630dd272e8"
+          }
+        },
+        {
+          "client_id": "822743284285-2be9ae0l93r1ccc52v3u4amj2591he9p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0mP0GV3MABfQbduf5g1GbDSEwt8ELBgw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "822743284285-2be9ae0l93r1ccc52v3u4amj2591he9p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

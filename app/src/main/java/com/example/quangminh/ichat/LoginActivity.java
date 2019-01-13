@@ -21,7 +21,6 @@ import org.w3c.dom.Text;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private FirebaseUser currentUser;
     private Button loginButton;
     private TextView loginEmailTxt, loginPassTxt, loginWithPhoneTxt, signUpTxt, forgetPasswordTxt;
 
@@ -35,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        currentUser = firebaseAuth.getCurrentUser();
 
         InitializeVariable();
 
@@ -103,19 +101,13 @@ public class LoginActivity extends AppCompatActivity {
         loadingBar = new ProgressDialog(this);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if (currentUser != null){
-            SendUserToMainActivity();
-        }
-
-    }
 
     private void SendUserToMainActivity() {
+        //User can not back to login activity without click logout
         Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(mainIntent);
+        finish();
     }
 
     private void SendUserToRegisterActivity() {

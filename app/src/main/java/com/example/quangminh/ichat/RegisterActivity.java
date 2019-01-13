@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -25,12 +27,16 @@ public class RegisterActivity extends AppCompatActivity {
 
     private ProgressDialog loadingBar;
 
+    private DatabaseReference rootRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        rootRef = FirebaseDatabase.getInstance().getReference();
 
         InitializeVariable();
 
@@ -71,6 +77,9 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             loadingBar.dismiss();
                             if (task.isSuccessful()) {
+                                String currentUserID = firebaseAuth.getCurrentUser().getUid();
+                                rootRef.child("Users").child(currentUserID).setValue("");
+
                                 SendUserToLoginActivity();
                                 Toast.makeText(RegisterActivity.this, "Account created successfully",
                                         Toast.LENGTH_SHORT).show();

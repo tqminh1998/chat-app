@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="110dp"
+        android:src="@drawable/profile_image"
+        android:id="@+id/visit_profile_img"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/visit_profile_img"
+        android:layout_marginLeft="15dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="6dp"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:textSize="22dp"
+        android:text="username"
+        android:id="@+id/visit_user_name"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/visit_user_name"
+        android:layout_marginLeft="15dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="6dp"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textStyle="italic"
+        android:textSize="17dp"
+        android:text="I am ..."
+        android:id="@+id/visit_user_status"
+        />
+
+    <Button
+        android:id="@+id/add_friend_button"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_below="@+id/visit_user_status"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_drawable"
+        android:text="Add Friend +"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:textAllCaps="false"
+        android:textColor="@color/colorBackground"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/decline_request_button"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_below="@+id/add_friend_button"
+        android:layout_marginTop="6dp"
+        android:text="Decline friend request"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:textAllCaps="false"
+        android:textColor="@color/colorText"
+        android:visibility="invisible"
+        android:textSize="16sp" />
+
+</RelativeLayout>

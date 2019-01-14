@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="horizontal"
+
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:src="@drawable/profile_image"
+            android:id="@+id/user_profile_image_in_list"
+
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="User name"
+                    android:textAlignment="textStart"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/user_profile_name_in_list"
+                    />
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/online"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/online_status"
+                    android:visibility="invisible"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:textAlignment="textStart"
+                android:textSize="16dp"
+                android:textStyle="italic"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/user_profile_status_in_list"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <Button
+                    android:id="@+id/accept_button_user_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/button_drawable"
+                    android:text="Accept"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorBackground"
+                    android:textSize="16sp"
+                    android:visibility="invisible"
+                    />
+
+                <Button
+                    android:id="@+id/decline_button_user_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/button_drawable_grey"
+                    android:text="Decline"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorBackground"
+                    android:textSize="16sp"
+                    android:visibility="invisible"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

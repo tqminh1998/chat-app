@@ -50,6 +50,14 @@ public class LoginActivity extends AppCompatActivity {
                 UserLogin();
             }
         });
+
+        loginWithPhoneTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent phoneLoginIntent = new Intent(getApplicationContext(), PhoneLoginActivity.class);
+                startActivity(phoneLoginIntent);
+            }
+        });
     }
 
     private void UserLogin() {

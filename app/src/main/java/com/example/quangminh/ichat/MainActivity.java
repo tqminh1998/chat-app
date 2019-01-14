@@ -125,9 +125,18 @@ public class MainActivity extends AppCompatActivity {
             case R.id.main_create_group_option:
                 RequestNewGroup();
                 break;
+
+            case R.id.main_find_friend_option:
+                SendUserToFindFriendsActivity();
+                break;
         }
 
         return true;
+    }
+
+    private void SendUserToFindFriendsActivity() {
+        Intent findFriendIntent = new Intent(getApplicationContext(), FindFriendsActivity.class);
+        startActivity(findFriendIntent);
     }
 
     private void RequestNewGroup() {

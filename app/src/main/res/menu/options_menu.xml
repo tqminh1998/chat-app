@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:title="Find"
+        android:title="All Users"
         android:id="@+id/main_find_friend_option"
         >
 

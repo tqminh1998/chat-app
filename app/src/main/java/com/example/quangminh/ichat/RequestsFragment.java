@@ -1,6 +1,8 @@
 package com.example.quangminh.ichat;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -11,9 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -80,7 +85,7 @@ public class RequestsFragment extends Fragment {
 
                         final String list_user_id = getRef(position).getKey();
 
-                        DatabaseReference getTypeRef = getRef(position).child("request_type").getRef();
+                        final DatabaseReference getTypeRef = getRef(position).child("request_type").getRef();
 
                         getTypeRef.addValueEventListener(new ValueEventListener() {
                             @Override
@@ -93,26 +98,155 @@ public class RequestsFragment extends Fragment {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 if (dataSnapshot.hasChild("image")){
-                                                    final String requestUserName = dataSnapshot.child("name").getValue().toString();
-                                                    final String requestUserStatus = dataSnapshot.child("status").getValue().toString();
                                                     final String requestUserImage = dataSnapshot.child("image").getValue().toString();
-
-                                                    holder.userName.setText(requestUserName);
-                                                    holder.userStatus.setText(requestUserStatus);
                                                     //Picasso.get().load(requestUserImage).into(holder.profileImage);
                                                 }
-                                                else{
-                                                    final String requestUserName = dataSnapshot.child("name").getValue().toString();
-                                                    final String requestUserStatus = dataSnapshot.child("status").getValue().toString();
+                                                final String requestUserName = dataSnapshot.child("name").getValue().toString();
+                                                final String requestUserStatus = dataSnapshot.child("status").getValue().toString();
 
-                                                    holder.userName.setText(requestUserName);
-                                                    holder.userStatus.setText(requestUserStatus);
-                                                }
+                                                holder.userName.setText(requestUserName);
+                                                holder.userStatus.setText("wants to be your friend");
+
+                                                holder.acceptButton.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        contactRef.child(currentUserID).child(list_user_id).child("Contacts")
+                                                                .setValue("Saved").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (task.isSuccessful()){
+                                                                    contactRef.child(list_user_id).child(currentUserID).child("Contacts")
+                                                                            .setValue("Saved").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                            if (task.isSuccessful()){
+                                                                                friendRequetsRef.child(currentUserID).child(list_user_id)
+                                                                                        .removeValue()
+                                                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                            @Override
+                                                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                                                if (task.isSuccessful()){
+                                                                                                    friendRequetsRef.child(list_user_id).child(currentUserID)
+                                                                                                            .removeValue()
+                                                                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                                @Override
+                                                                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                                                                    Toast.makeText(getContext(), "Friend added",
+                                                                                                                            Toast.LENGTH_SHORT).show();
+                                                                                                                }
+                                                                                                            });
+                                                                                                }
+                                                                                            }
+                                                                                        });
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                });
+
+
+                                                holder.declineButton.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        friendRequetsRef.child(currentUserID).child(list_user_id)
+                                                                .removeValue()
+                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                        if (task.isSuccessful()){
+                                                                            friendRequetsRef.child(list_user_id).child(currentUserID)
+                                                                                    .removeValue()
+                                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                        @Override
+                                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                                            Toast.makeText(getContext(), "Request declined",
+                                                                                                    Toast.LENGTH_SHORT).show();
+                                                                                        }
+                                                                                    });
+                                                                        }
+                                                                    }
+                                                                });
+                                                    }
+                                                });
 
                                                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                                                     @Override
                                                     public void onClick(View v) {
+                                                        CharSequence options[] = new CharSequence[]
+                                                                {
+                                                                        "Accept",
+                                                                        "Decline"
+                                                                };
 
+                                                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                                                        builder.setItems(options, new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                if (which == 0){
+                                                                    contactRef.child(currentUserID).child(list_user_id).child("Contacts")
+                                                                            .setValue("Saved").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                            if (task.isSuccessful()){
+                                                                                contactRef.child(list_user_id).child(currentUserID).child("Contacts")
+                                                                                        .setValue("Saved").addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                    @Override
+                                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                                        if (task.isSuccessful()){
+                                                                                            friendRequetsRef.child(currentUserID).child(list_user_id)
+                                                                                                    .removeValue()
+                                                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                        @Override
+                                                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                                                            if (task.isSuccessful()){
+                                                                                                                friendRequetsRef.child(list_user_id).child(currentUserID)
+                                                                                                                        .removeValue()
+                                                                                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                                            @Override
+                                                                                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                                                                                Toast.makeText(getContext(), "Friend added",
+                                                                                                                                        Toast.LENGTH_SHORT).show();
+                                                                                                                            }
+                                                                                                                        });
+                                                                                                            }
+                                                                                                        }
+                                                                                                    });
+                                                                                        }
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                        }
+                                                                    });
+
+                                                                }
+                                                                if (which == 1){
+                                                                    friendRequetsRef.child(currentUserID).child(list_user_id)
+                                                                            .removeValue()
+                                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                @Override
+                                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                                    if (task.isSuccessful()){
+                                                                                        friendRequetsRef.child(list_user_id).child(currentUserID)
+                                                                                                .removeValue()
+                                                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                    @Override
+                                                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                                                        Toast.makeText(getContext(), "Request declined",
+                                                                                                                Toast.LENGTH_SHORT).show();
+                                                                                                    }
+                                                                                                });
+                                                                                    }
+                                                                                }
+                                                                            });
+                                                                }
+                                                            }
+                                                        });
+
+                                                        builder.show();
                                                     }
                                                 });
                                             }

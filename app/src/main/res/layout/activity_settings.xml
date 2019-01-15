@@ -6,14 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
+    <include
+        layout="@layout/app_bar_layout"
+        android:id="@+id/setting_toolbar"
+        >
+
+    </include>
+
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/set_profile_image"
-        android:layout_width="200sp"
-        android:layout_height="200sp"
+        android:layout_width="150sp"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50sp"
+        android:layout_marginTop="100sp"
         android:src="@drawable/profile_image"
         app:civ_border_width="2dp"
         app:civ_border_color="@color/colorPrimary"/>

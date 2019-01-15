@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -81,11 +82,34 @@ public class ChatFragment extends Fragment {
                                     if (dataSnapshot.hasChild("image")){
                                         final String strImage = dataSnapshot.child("image").getValue().toString();
                                     }
+
                                     final String strUserName = dataSnapshot.child("name").getValue().toString();
                                     final String strStatus = dataSnapshot.child("status").getValue().toString();
 
                                     holder.userName.setText(strUserName);
-                                    holder.userStatus.setText("Last Seen: ");
+                                    holder.userStatus.setText("Offline");
+
+
+                                    if (dataSnapshot.child("User state").hasChild("state")){
+                                        String state = dataSnapshot.child("User state").child("state").getValue().toString();
+                                        String date = dataSnapshot.child("User state").child("date").getValue().toString();
+                                        String time = dataSnapshot.child("User state").child("time").getValue().toString();
+
+                                        if (state.equals("online")){
+                                            holder.userStatus.setText("Online");
+                                            holder.onOffStatus.setVisibility(View.VISIBLE);
+                                        }
+                                        else if (state.equals("offline")){
+                                            holder.userStatus.setText("Last seen: "+date+ "  "+time);
+                                            holder.onOffStatus.setVisibility(View.INVISIBLE);
+                                        }
+
+                                    }
+                                    else{
+                                        holder.userStatus.setText("Offline");
+                                        holder.onOffStatus.setVisibility(View.INVISIBLE);
+                                    }
+
 
                                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -122,6 +146,7 @@ public class ChatFragment extends Fragment {
     public static class ChatsViewHolder extends RecyclerView.ViewHolder{
         TextView userName, userStatus;
         CircleImageView profileImage;
+        ImageView onOffStatus;
 
         public ChatsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -130,7 +155,7 @@ public class ChatFragment extends Fragment {
             userStatus = itemView.findViewById(R.id.user_profile_status_in_list);
             profileImage = itemView.findViewById(R.id.user_profile_image_in_list);
 
-
+            onOffStatus = (ImageView) itemView.findViewById(R.id.online_status);
         }
     }
 }

@@ -172,6 +172,7 @@ public class RequestsFragment extends Fragment {
                                                     }
                                                 });
 
+
                                                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                                                     @Override
                                                     public void onClick(View v) {
@@ -294,7 +295,7 @@ public class RequestsFragment extends Fragment {
             profileImage = itemView.findViewById(R.id.user_profile_image_in_list);
 
             acceptButton = itemView.findViewById(R.id.accept_button_user_layout);
-            declineButton = itemView.findViewById(R.id.decline_request_button);
+            declineButton = itemView.findViewById(R.id.decline_button_user_layout);
 
 
         }

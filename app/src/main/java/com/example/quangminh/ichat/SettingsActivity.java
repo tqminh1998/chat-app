@@ -108,7 +108,7 @@ public class SettingsActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(SettingsActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
-                            final String downloadUrl = "chua biet cach lam";
+                            final String downloadUrl = "task.getResult().getMetadata().getReference().getDownloadUrl().toString()";
 
                             rootRef.child("Users").child(currentUserID).child("image")
                                     .setValue(downloadUrl)

@@ -26,14 +26,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private TabsAccessorAdapter tabsAccessorAdapter;
-    private FirebaseUser currentUser;
     private FirebaseAuth firebaseAuth;
+    private String currentUserID;
 
     private DatabaseReference rootRef;
 
@@ -44,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         //user authentication
         firebaseAuth = FirebaseAuth.getInstance();
-        currentUser = firebaseAuth.getCurrentUser();
+
         rootRef = FirebaseDatabase.getInstance().getReference();
 
         //toolbar settings
@@ -67,11 +71,40 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
         if (currentUser == null){
             SendUserToLoginActivity();
         }
         else{
+
+            UpdateUserOnOff("online");
+
             VerifyNewUser();
+
+        }
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null){
+            UpdateUserOnOff("offline");
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        if (currentUser != null){
+            UpdateUserOnOff("offline");
         }
     }
 
@@ -114,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.main_log_out_option:
+                UpdateUserOnOff("offline");
                 firebaseAuth.signOut();
                 SendUserToLoginActivity();
                 break;
@@ -200,6 +234,31 @@ public class MainActivity extends AppCompatActivity {
         loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(loginIntent);
         finish();
+    }
+
+    private void UpdateUserOnOff(String state){
+        String saveCurrentTime, saveCurrentDate;
+
+        Calendar calendar = Calendar.getInstance();
+
+        SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, yyyy");
+        saveCurrentDate = currentDate.format(calendar.getTime());
+
+        SimpleDateFormat currentTime = new SimpleDateFormat("hh:mm a");
+        saveCurrentTime = currentTime.format(calendar.getTime());
+
+        HashMap<String, Object> onlineStatusMap = new HashMap<>();
+
+        onlineStatusMap.put("time", saveCurrentTime);
+        onlineStatusMap.put("date", saveCurrentDate);
+        onlineStatusMap.put("state", state);
+
+
+        currentUserID = firebaseAuth.getCurrentUser().getUid();
+
+        rootRef.child("Users").child(currentUserID).child("User state")
+                .updateChildren(onlineStatusMap);
+
     }
 
 }
